@@ -39,19 +39,22 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Physical Product</h5>
+                                            <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Category</h5>
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
                                             <form class="needs-validation">
                                                 <div class="form">
-                                                    <div class="form-group">
-                                                        <label for="validationCustom01" class="mb-1">Category Name :</label>
-                                                        <input class="form-control" id="validationCustom01" type="text">
-                                                    </div>
                                                     <div class="form-group mb-0">
-                                                        <label for="validationCustom02" class="mb-1">Category Image :</label>
-                                                        <input class="form-control" id="validationCustom02" type="file">
+                                                        <label for="domain" class="mb-1">Domain Name :</label>
+                                                        <select name="" id="domain" class="form-control">
+                                                            <option value="Electronics">Electronics</option>
+                                                            <option value="Cloaths">Cloaths</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="category" class="mb-1">Category Name :</label>
+                                                        <input class="form-control" id="category" type="text">
                                                     </div>
                                                 </div>
                                             </form>
@@ -65,7 +68,24 @@
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <div id="basicScenario" class="product-physical"></div>
+                            <table id="table_id" class="display">
+                                <thead>
+                                    <tr>
+                                        <th>Column 1</th>
+                                        <th>Column 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Row 1 Data 1</td>
+                                        <td>Row 1 Data 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Row 2 Data 1</td>
+                                        <td>Row 2 Data 2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -73,4 +93,9 @@
         </div>
     </div>
     <!-- Container-fluid Ends-->
+    <script>
+        $(document).ready( function () {
+            $('#table_id').DataTable();
+        } );
+    </script>
 @endsection
