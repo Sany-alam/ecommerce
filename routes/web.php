@@ -23,3 +23,5 @@ Route::get('/admin', function () {
     return view('admin.index');
 });
 Route::get('/category',[CategoryController::class,'admin']);
+
+Route::post('/create-domain',[CategoryController::class,'create_category']);

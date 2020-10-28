@@ -1,9 +1,37 @@
 @extends('admin.app')
 @section('page-body')
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>Dashboard
+                            <small>Multikart Admin panel</small>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb pull-right">
+                        <li class="breadcrumb-item"><a href="index.html"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
     {{-- domain managing --}}
-    <div class="card m-5">
+    <div class="card">
         <div class="card-body">
             <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <h2>Product typesetting</h2>
+                    <form class="form-inline">
+                        <input id="domain-name" type="text" class="form-control">
+                        <button class="btn btn-primary" type="button" id="create-domain-name">Create</button>
+                    </form>
+                </div>
                 <div class="table-responsive">
                     <table id="table_id" class="display">
                         <thead>
@@ -28,28 +56,6 @@
         </div>
     </div>
     {{-- domain managing --}}
-
-    <!-- Container-fluid starts-->
-    <div class="container-fluid">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="page-header-left">
-                        <h3>Dashboard
-                            <small>Multikart Admin panel</small>
-                        </h3>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <ol class="breadcrumb pull-right">
-                        <li class="breadcrumb-item"><a href="index.html"><i data-feather="home"></i></a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Container-fluid Ends-->
 
     <div class="container-fluid">
         <div class="row">
@@ -981,4 +987,21 @@
 
         </div>
     </div>
+
+    <script>
+        $("#create-domain-name").click(function() {
+            formData = new FormData()
+            formData.append('domain',$("#domain-name").val())
+            $.ajax({
+                processData:false,
+                contentType:false,
+                data: formData,
+                type:"POST",
+                url:"create-domain",
+                success:function(data){
+                    alert(data)
+                }
+            })
+        })
+    </script>
 @endsection
