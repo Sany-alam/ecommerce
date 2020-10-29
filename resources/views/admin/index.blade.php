@@ -32,24 +32,9 @@
                         <button class="btn btn-primary" type="button" id="create-domain-name">Create</button>
                     </form>
                 </div>
-                <div class="table-responsive">
-                    <table id="table_id" class="display">
-                        <thead>
-                            <tr>
-                                <th>Column 1</th>
-                                <th>Column 2</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Row 1 Data 1</td>
-                                <td>Row 1 Data 2</td>
-                            </tr>
-                            <tr>
-                                <td>Row 2 Data 1</td>
-                                <td>Row 2 Data 2</td>
-                            </tr>
-                        </tbody>
+                <div class="table-responsive" id="table">
+                    <table id="domain-table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+
                     </table>
                 </div>
             </div>
@@ -989,6 +974,29 @@
     </div>
 
     <script>
+
+        $(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            readDomain();
+            $('#domain-table').DataTable();
+        })
+
+        function readDomain() {
+            $.ajax({
+                processData:false,
+                contentType:false,
+                type:"GET",
+                url:"{{route('readDomain')}}",
+                success:function(data){
+                    $('#domain-table').html(data);
+                }
+            })
+        }
+
         $("#create-domain-name").click(function() {
             formData = new FormData()
             formData.append('domain',$("#domain-name").val())
@@ -997,11 +1005,29 @@
                 contentType:false,
                 data: formData,
                 type:"POST",
-                url:"create-domain",
+                url:"{{route('createDomain')}}",
                 success:function(data){
                     alert(data)
+                    readDomain();
                 }
             })
         })
+
+        function delete_domain(id) {
+            $.ajax({
+                processData:false,
+                contentType:false,
+                type:"GET",
+                url:`{{url('admin/domain/delete/${id}')}}`,
+                success:function(data){
+                    readDomain()
+                    alert(data)
+                }
+            })
+        }
+
+        function edit_domain(id) {
+            alert(id)
+        }
     </script>
 @endsection

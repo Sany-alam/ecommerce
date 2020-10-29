@@ -48,11 +48,13 @@
     <script type="text/javascript" charset="utf8" src="{{ asset('assets') }}/js/datatables/jquery.dataTables.min.js"></script>
 
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        // $(function() {
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
+        // })
     </script>
 </head>
 
@@ -165,7 +167,7 @@
                                     <span>Physical</span> <i class="fa fa-angle-right pull-right"></i>
                                 </a>
                                 <ul class="sidebar-submenu">
-                                <li><a href="{{ url('/category') }}"><i class="fa fa-circle"></i>Category</a></li>
+                                <li><a href="{{ route('category') }}"><i class="fa fa-circle"></i>Category</a></li>
                                     <li><a href="category-sub.html"><i class="fa fa-circle"></i>Sub Category</a></li>
                                     <li><a href="product-list.html"><i class="fa fa-circle"></i>Product List</a></li>
                                     <li><a href="product-detail.html"><i class="fa fa-circle"></i>Product Detail</a></li>
@@ -346,9 +348,6 @@
 </div>
 </body>
 <script>
-    $(document).ready( function () {
-        $('#table_id').DataTable();
-    } );
 </script>
 <!-- feather icon js-->
 <script src="{{ asset('assets') }}/js/icons/feather-icon/feather.min.js"></script>
