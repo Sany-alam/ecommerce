@@ -26,16 +26,13 @@
         <div class="card-body">
             <div class="container-fluid">
                 <div class="d-flex justify-content-between align-items-center my-4">
-                    <h2>Product typesetting</h2>
-                    <form class="form-inline">
+                    <h2>Product type setting</h2>
+                    <div class="form-inline">
                         <input id="domain-name" type="text" class="form-control">
-                        <button class="btn btn-primary" type="button" id="create-domain-name">Create</button>
-                    </form>
+                        <button class="mx-2 btn btn-primary" type="button" id="create-domain-name">Create</button>
+                    </div>
                 </div>
                 <div class="table-responsive" id="table">
-                    <table id="domain-table" class="display table table-striped table-bordered" cellspacing="0" width="100%">
-
-                    </table>
                 </div>
             </div>
         </div>
@@ -973,6 +970,27 @@
         </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="domain-edit-modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <form id="update-domain" action="{{route('updateDomain')}}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" name="id">
+                    <div class="form-group">
+                        <label for="domain-name"></label>
+                        <input id="domain-name" type="text" class="form-control" name="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    @section('js')
     <script>
 
         $(function() {
@@ -982,7 +1000,6 @@
                 }
             });
             readDomain();
-            $('#domain-table').DataTable();
         })
 
         function readDomain() {
@@ -992,7 +1009,7 @@
                 type:"GET",
                 url:"{{route('readDomain')}}",
                 success:function(data){
-                    $('#domain-table').html(data);
+                    $('#table').html(data);
                 }
             })
         }
@@ -1007,6 +1024,7 @@
                 type:"POST",
                 url:"{{route('createDomain')}}",
                 success:function(data){
+                    $("#domain-name").val('');
                     alert(data)
                     readDomain();
                 }
@@ -1027,7 +1045,33 @@
         }
 
         function edit_domain(id) {
-            alert(id)
+            $.ajax({
+                processData:false,
+                contentType:false,
+                type:"GET",
+                url:`{{url('admin/domain/edit/${id}')}}`,
+                success:function(data){
+                    $("input[name='id']").val(data.id);
+                    $("input[name='name']").val(data.name);
+                    $("#domain-edit-modal").modal('show');
+                }
+            })
         }
+
+        $("#update-domain").on('submit',function(e) {
+            e.preventDefault();
+            $.ajax({
+                type:"POST",
+                url:`{{url('admin/domain/update/')}}`,
+                data:$("#update-domain").serialize(),
+                success:function(data){
+                    $("input[name='id']").val('');
+                    $("input[name='name']").val('');
+                    $("#domain-edit-modal").modal('hide');
+                    readDomain();
+                }
+            })
+        })
     </script>
+    @endsection
 @endsection

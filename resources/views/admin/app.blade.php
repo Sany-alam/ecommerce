@@ -10,6 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="icon" href="{{ asset('assets') }}/images/dashboard/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets') }}/images/dashboard/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{asset('assets/css/datatables.css')}}">
     <title>Multikart - Premium Admin Template</title>
 
     <!-- Google font-->
@@ -37,25 +38,14 @@
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets') }}/css/admin.css">
 
+
     <!-- latest jquery-->
     <script src="{{ asset('assets') }}/js/jquery-3.3.1.min.js"></script>
 
     <!-- Bootstrap js-->
     <script src="{{ asset('assets') }}/js/popper.min.js"></script>
     <script src="{{ asset('assets') }}/js/bootstrap.js"></script>
-
-
-    <script type="text/javascript" charset="utf8" src="{{ asset('assets') }}/js/datatables/jquery.dataTables.min.js"></script>
-
-    <script>
-        // $(function() {
-        //     $.ajaxSetup({
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         }
-        //     });
-        // })
-    </script>
+    <script src="{{ asset('assets') }}/js/datatables/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
@@ -161,30 +151,11 @@
                 <ul class="sidebar-menu">
                     <li><a class="sidebar-header" href="{{ url('/admin') }}"><i data-feather="home"></i><span>Dashboard</span></a></li>
                     <li><a class="sidebar-header" href="#"><i data-feather="box"></i> <span>Products</span><i class="fa fa-angle-right pull-right"></i></a>
-                        <ul class="sidebar-submenu">
-                            <li>
-                                <a href="#"><i class="fa fa-circle"></i>
-                                    <span>Physical</span> <i class="fa fa-angle-right pull-right"></i>
-                                </a>
-                                <ul class="sidebar-submenu">
-                                <li><a href="{{ route('category') }}"><i class="fa fa-circle"></i>Category</a></li>
-                                    <li><a href="category-sub.html"><i class="fa fa-circle"></i>Sub Category</a></li>
-                                    <li><a href="product-list.html"><i class="fa fa-circle"></i>Product List</a></li>
-                                    <li><a href="product-detail.html"><i class="fa fa-circle"></i>Product Detail</a></li>
-                                    <li><a href="add-product.html"><i class="fa fa-circle"></i>Add Product</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-circle"></i>
-                                    <span>Digital</span> <i class="fa fa-angle-right pull-right"></i>
-                                </a>
-                                <ul class="sidebar-submenu">
-                                    <li><a href="category-digital.html"><i class="fa fa-circle"></i>Category</a></li>
-                                    <li><a href="category-digitalsub.html"><i class="fa fa-circle"></i>Sub Category</a></li>
-                                    <li><a href="product-listdigital.html"><i class="fa fa-circle"></i>Product List</a></li>
-                                    <li><a href="add-digital-product.html"><i class="fa fa-circle"></i>Add Product</a></li>
-                                </ul>
-                            </li>
+                        <ul class="sidebar-submenu" id="domainAndCategories">
+                            <li><a href="{{ url('admin/domain') }}"><i class="fa fa-circle"></i>Domain</a></li>
+                            <li><a href="{{ url('admin/category') }}"><i class="fa fa-circle"></i>Category</a></li>
+                            <li><a href="{{ url('admin/subcategory') }}"><i class="fa fa-circle"></i>Subcategory</a></li>
+                            <li><a href="{{ url('admin/product') }}"><i class="fa fa-circle"></i>Product</a></li>
                         </ul>
                     </li>
                     <li><a class="sidebar-header" href="#"><i data-feather="dollar-sign"></i><span>Sales</span><i class="fa fa-angle-right pull-right"></i></a>
@@ -347,8 +318,7 @@
 
 </div>
 </body>
-<script>
-</script>
+
 <!-- feather icon js-->
 <script src="{{ asset('assets') }}/js/icons/feather-icon/feather.min.js"></script>
 <script src="{{ asset('assets') }}/js/icons/feather-icon/feather-icon.js"></script>
@@ -398,4 +368,26 @@
 
 <!--script admin-->
 <script src="{{ asset('assets') }}/js/admin-script.js"></script>
+
+@yield('js')
+
+<script>
+    $(function() {
+        readDomainAndCat();
+    })
+
+        function readDomainAndCat() {
+            $.ajax({
+                processData:false,
+                contentType:false,
+                type:"GET",
+                url:"{{route('readSidebarDomainAndCategories')}}",
+                success:function(data){
+                    $('#domainAndCategories').html(data);
+                    // console.log(data);
+                }
+            })
+        }
+</script>
+
 </html>

@@ -16,23 +16,45 @@ class DomainController extends Controller
     public function read_domain()
     {
         $rows = Domain::orderBy('id','DESC')->get();
-        $table = '<thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th></th>
-            </tr>
-            </thead><tbody>';
-        foreach ($rows as $row) {
-            $table .= '<tr>
-            <td>'.$row->id.'</td>
-            <td>'.$row->name.'</td>
-            <td><button class="btn btn-primary" onclick="edit_domain('.$row->id.')">Edit</button><button class="btn btn-primary" onclick="delete_domain('.$row->id.')">Delete</button></td>
-        </tr>';
-        }
-        $table .='</tbody>';
-        return $table;
+        ?>
+        <table id="domainTable" class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($rows as $row) {
+                ?>
+                <tr>
+                    <td><?php echo $row->id; ?></td>
+                    <td><?php echo $row->name; ?></td>
+                    <td><button class="btn btn-warning" onclick="edit_domain(<?php echo $row->id; ?>)">Edit</button></td>
+                    <td><button class="btn btn-primary" onclick="delete_domain(<?php echo $row->id; ?>)">Delete</button></td>
+                </tr>
+                <?php
+            }
+            ?>
+            </tbody>
+        </table>
+        <script>
+            $('#domainTable').dataTable();
+        </script>
+        <?php
+    }
 
+    public function edit_domain(Request $Request)
+    {
+        return Domain::where('id',$Request->id)->first();
+    }
+
+    public function update_domain(Request $Request)
+    {
+        Domain::where('id',$Request->id)->update(['name'=>$Request->name]);
     }
 
     public function delete_domain($id)
